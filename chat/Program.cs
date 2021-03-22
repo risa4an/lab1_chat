@@ -15,7 +15,7 @@ namespace chat
         static int userPort = 8002; // порт для отправки данных
         static int groupPort = 8003;
         static string userName;
-        static string groupIp;
+        static string groupIp = null;
         static User myUser;
         static List<User> users;
 
@@ -31,6 +31,9 @@ namespace chat
                 int action = Int32.Parse(Console.ReadLine());
                 users = new List<User>();
 
+                Thread mesThread = new Thread(new ThreadStart(ReceiveMessage));
+                mesThread.Start();
+
                 UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
                 sender.Send(myUser.bytesToSend(), myUser.bytesToSend().Length, endPoint);
@@ -38,9 +41,8 @@ namespace chat
 
                 Thread lobbyThread = new Thread(new ThreadStart(ReceiveNewConnections));
                 lobbyThread.Start();
+                
 
-                Thread mesThread = new Thread(new ThreadStart(ReceiveMessage));
-                mesThread.Start();
 
                 if (action == 1)
                 {
@@ -55,10 +57,7 @@ namespace chat
                 else
                 {
                     Console.WriteLine("Выберите, к кому присоединиться");
-                    foreach (User usr in users)
-                    {
-                        Console.WriteLine(usr.userName);
-                    }
+                    
                     string user = Console.ReadLine();
                     User groupHost = users.Find(x => x.userName == user);
 
@@ -83,7 +82,7 @@ namespace chat
             try
             {
                 while (true)
-                { 
+                {
                     string message = Console.ReadLine(); // сообщение для отправки
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     Message mes = new Message(userName, message);
@@ -147,7 +146,9 @@ namespace chat
 
                     if (action == 0)
                     {
-                        users.Add((User)values["user"]);
+                        User usr = (User)values["user"];
+                        users.Add(usr);
+                        Console.WriteLine(usr.userName);
                     }
                     else if (action == 1)
                     {
@@ -156,7 +157,7 @@ namespace chat
                         string reaction = Console.ReadLine();
                         if (reaction == "Y")
                         {
-                            UdpClient sender = new UdpClient(); 
+                            UdpClient sender = new UdpClient();
                             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
                             Dictionary<String, Object> responce = new Dictionary<String, Object>();
                             responce["action"] = 2;
