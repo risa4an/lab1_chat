@@ -17,7 +17,7 @@ namespace chat
             Dictionary<String, Object> values = JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonStr);
             userName = (string)values["userName"];
             ip = (string)values["ip"];
-            port = (int)values["port"];
+            port = (int)(long)values["port"];
         }
 
         public User(string _userName, string _ip, int _port)

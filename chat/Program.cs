@@ -12,8 +12,8 @@ namespace chat
     {
         static string lobbyAdress = "224.0.0.1"; // адресс лобби
         static int lobbyPort = 8001;
-        static int userPort = 8001; // порт для отправки данных
-        static int groupPort = 8001;
+        static int userPort = 8002; // порт для отправки данных
+        static int groupPort = 8003;
         static string userName;
         static string groupIp = null;
         static User myUser;
@@ -58,7 +58,6 @@ namespace chat
                     sender.Close();
 
                     Console.WriteLine("Выберите, к кому присоединиться");
-                    groupIp = "224.0.0.3";
                     SendMessage();
                     
                     //string user = Console.ReadLine();
@@ -147,7 +146,7 @@ namespace chat
                     byte[] data = receiver.Receive(ref remoteIp); // получаем данные
                     string jsonStr = Encoding.Unicode.GetString(data);
                     Dictionary<String, Object> values = JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonStr);
-                    int action = (int)values["action"];
+                    int action = (int)(long)values["action"];
 
                     if (action == 0)
                     {
