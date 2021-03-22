@@ -13,7 +13,7 @@ namespace chat
         static string lobbyAdress = "224.0.0.1"; // адресс лобби
         static int lobbyPort = 8001;
         static int userPort = 8001; // порт для отправки данных
-        static int groupPort = 8003;
+        static int groupPort = 8001;
         static string userName;
         static string groupIp = null;
         static User myUser;
@@ -31,14 +31,10 @@ namespace chat
                 int action = Int32.Parse(Console.ReadLine());
                 users = new List<User>();
 
-                //Thread mesThread = new Thread(new ThreadStart(ReceiveMessage));
-                //mesThread.Start();
+                Thread mesThread = new Thread(new ThreadStart(ReceiveMessage));
+                mesThread.Start();
 
-                UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
-                IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
-                sender.Send(myUser.bytesToSend(), myUser.bytesToSend().Length, endPoint);
-                sender.Close();
-
+                
                 Thread lobbyThread = new Thread(new ThreadStart(ReceiveNewConnections));
                 lobbyThread.Start();
                 
@@ -49,22 +45,29 @@ namespace chat
                     Random rnd = new Random();
                     groupIp = "224.0.0." + (int)rnd.Next(0, 255);
 
-                    //Thread groupThread = new Thread(new ThreadStart(ReceiveGroupMessages));
-                    //groupThread.Start();
+                    Thread groupThread = new Thread(new ThreadStart(ReceiveGroupMessages));
+                    groupThread.Start();
 
                     SendMessage();
                 }
                 else
                 {
-                    Console.WriteLine("Выберите, к кому присоединиться");
-                    
-                    string user = Console.ReadLine();
-                    User groupHost = users.Find(x => x.userName == user);
-
-                    sender = new UdpClient(); // создаем UdpClient для отправки
-                    endPoint = new IPEndPoint(IPAddress.Parse(groupHost.ip), groupHost.port);
-                    sender.Send(myUser.bytesToSend(1), myUser.bytesToSend(1).Length, endPoint);
+                    UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
+                    sender.Send(myUser.bytesToSend(), myUser.bytesToSend().Length, endPoint);
                     sender.Close();
+
+                    Console.WriteLine("Выберите, к кому присоединиться");
+                    groupIp = "224.0.0.3";
+                    SendMessage();
+                    
+                    //string user = Console.ReadLine();
+                    //User groupHost = users.Find(x => x.userName == user);
+
+                    //sender = new UdpClient(); // создаем UdpClient для отправки
+                    //endPoint = new IPEndPoint(IPAddress.Parse(groupHost.ip), groupHost.port);
+                    //sender.Send(myUser.bytesToSend(1), myUser.bytesToSend(1).Length, endPoint);
+                    //sender.Close();
 
                 }
 
@@ -78,7 +81,7 @@ namespace chat
         private static void SendMessage()
         {
             UdpClient sender = new UdpClient(); // создаем UdpClient для отправки сообщений
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(groupIp), groupPort);
             try
             {
                 while (true)
@@ -111,16 +114,16 @@ namespace chat
                 while (true)
                 {
                     byte[] data = receiver.Receive(ref remoteIp); // получаем данные
-                    //User user = new User(data);
-                    Console.WriteLine("ReceiveNewConnections");
-                    //if (groupIp != null)
-                    //{
-                    //    UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
-                    //    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(user.ip), user.port);
-                    //    sender.Send(myUser.bytesToSend(0), myUser.bytesToSend(0).Length, endPoint);
-                    //    sender.Close();
-                    //}
-                    
+                    User user = new User(data);
+                    //Console.WriteLine("ReceiveNewConnections");
+                    if (groupIp != null)
+                    {
+                        UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
+                        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(user.ip), user.port);
+                        sender.Send(myUser.bytesToSend(0), myUser.bytesToSend(0).Length, endPoint);
+                        sender.Close();
+                    }
+
                 }
             }
             catch (Exception ex)
