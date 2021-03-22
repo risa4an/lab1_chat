@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ruBci3n0gBpRCBLcJ3ufj6iXh5+3o3/CganeLY8AN3j1DRLgaHzwUVVEScLjXhNS0lFwqhBziDQjcO1zZkxqlw==",
+  "success": true,
+  "projectFilePath": "/Users/katerina/Projects/chat/chat/chat.csproj",
+  "expectedPackageFiles": [
+    "/Users/katerina/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

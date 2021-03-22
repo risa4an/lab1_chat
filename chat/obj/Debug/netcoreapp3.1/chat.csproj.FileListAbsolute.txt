@@ -1,0 +1,14 @@
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/chat.deps.json
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/chat.runtimeconfig.json
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/chat.runtimeconfig.dev.json
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/chat.dll
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/chat.pdb
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.csprojAssemblyReference.cache
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.AssemblyInfoInputs.cache
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.AssemblyInfo.cs
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.csproj.CoreCompileInputs.cache
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.dll
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.pdb
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.genruntimeconfig.cache
+/Users/katerina/Projects/chat/chat/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
+/Users/katerina/Projects/chat/chat/obj/Debug/netcoreapp3.1/chat.csproj.CopyComplete
