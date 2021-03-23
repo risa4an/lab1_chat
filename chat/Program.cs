@@ -11,9 +11,9 @@ namespace chat
     partial class Program
     {
         static string lobbyAdress = "224.0.0.1"; // адресс лобби
-        static int lobbyPort = 8001;
-        static int userPort = 8002; // порт для отправки данных
-        static int groupPort = 8003;
+        static int lobbyPort = 50001;
+        static int userPort = 50002; // порт для отправки данных
+        static int groupPort = 50003;
         static string userName;
         static string groupIp = null;
         static User myUser;
@@ -169,7 +169,7 @@ namespace chat
                         if (reaction == "Y")
                         {
                             UdpClient sender = new UdpClient();
-                            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(lobbyAdress), lobbyPort);
+                            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(usr.ip), usr.port);
                             Dictionary<String, Object> responce = new Dictionary<String, Object>();
                             responce["action"] = 2;
                             responce["groupIp"] = groupIp;
