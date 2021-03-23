@@ -58,7 +58,6 @@ namespace chat
                     sender.Close();
 
                     Console.WriteLine("Выберите, к кому присоединиться");
-                    SendMessage();
                     
                     //string user = Console.ReadLine();
                     //User groupHost = users.Find(x => x.userName == user);
@@ -150,13 +149,21 @@ namespace chat
 
                     if (action == 0)
                     {
-                        User usr = (User)values["user"];
+                        User usr = JsonConvert.DeserializeObject<User>(values["user"].ToString());
                         users.Add(usr);
                         Console.WriteLine(usr.userName);
+
+                        string user = Console.ReadLine();
+                        User groupHost = users.Find(x => x.userName == user);
+
+                        UdpClient sender = new UdpClient(); // создаем UdpClient для отправки
+                        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(groupHost.ip), groupHost.port);
+                        sender.Send(myUser.bytesToSend(1), myUser.bytesToSend(1).Length, endPoint);
+                        sender.Close();
                     }
                     else if (action == 1)
                     {
-                        User usr = (User)values["user"];
+                        User usr = JsonConvert.DeserializeObject<User>(values["user"].ToString());
                         Console.WriteLine("Это я, {0}, можно к вам ? ", usr.userName);
                         string reaction = Console.ReadLine();
                         if (reaction == "Y")

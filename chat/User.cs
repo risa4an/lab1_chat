@@ -11,6 +11,11 @@ namespace chat
         public string ip;
         public int port;
 
+        public User()
+        {
+
+        }
+
         public User(byte[] json)
         {
             string jsonStr = Encoding.Unicode.GetString(json);
@@ -31,7 +36,11 @@ namespace chat
         {
             Dictionary<String, Object> values = new Dictionary<String, Object>();
             values["action"] = action;
-            values["user"] = this;
+            Dictionary<String, Object> user = new Dictionary<String, Object>();
+            user["userName"] = userName;
+            user["ip"] = ip;
+            user["port"] = port;
+            values["user"] = user;
             return Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(values, Formatting.Indented));
         }
 
